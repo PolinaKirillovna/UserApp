@@ -19,7 +19,7 @@
             padding: 0;
         }
 
-        #regForm {
+        #registerForm {
             margin: 50px auto;
             width: 300px;
             padding: 20px;
@@ -66,32 +66,38 @@
     </style>
 </head>
 <body>
+<html>
+<head>
+    <title>Register</title>
+</head>
+<body>
 
-<form:form id="regForm" modelAttribute="user" action="registerProcess" method="post">
-    <table>
-        <tr>
-            <td><label for="username">Username:</label></td>
-            <td><form:input path="username" id="username" placeholder="Enter your username" /></td>
-        </tr>
-        <tr>
-            <td><label for="password">Password:</label></td>
-            <td><form:password path="password" id="password" placeholder="Enter your password" /></td>
-        </tr>
+<div id="registerForm">
+    <form action="registerProcess" method="post">
+        <div>
+            <label for="username">Username:</label><br />
+            <input type="text" id="username" name="username" required="required" />
+        </div>
+        <div>
+            <label for="password">Password:</label><br />
+            <input type="password" id="password" name="password" required="required" />
+        </div>
+        <div>
+            <label for="email">Email:</label><br />
+            <input type="email" id="email" name="email" required="required" />
+        </div>
+        <div>
+            <input type="submit" value="Register" />
+        </div>
+    </form>
 
-        <tr>
-            <td><label for="email">Email:</label></td>
-            <td><form:input path="email" id="email" placeholder="Enter your email" /></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><form:button id="register" name="register">Register</form:button></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><a href="index">Home</a></td>
-        </tr>
-    </table>
-</form:form>
+    <div id="message">${message}</div>
+</div>
+
+</body>
+</html>
+
+
 
 </body>
 </html>

@@ -75,7 +75,7 @@
         <th>Username</th>
         <th>Email</th>
     </tr>
-    <c:forEach var="user" items="${users}">
+    <c:forEach var="user" items="${usersList}">
         <tr>
             <td>${user.username}</td>
             <td>${user.email}</td>
@@ -84,8 +84,8 @@
 </table>
 
 <div class="button-container">
-    <a href="welcome" class="back-button">Back</a>
-    <a href="index" class="home-button">Home</a>
+    <a href="/lk" class="back-button">Back</a>
+    <a href="/" class="home-button">Home</a>
 </div>
 
 </body>

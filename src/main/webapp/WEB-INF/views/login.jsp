@@ -8,9 +8,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>Login</title>
     <style>
         body {
@@ -38,25 +38,25 @@
             font-weight: bold;
         }
 
-        input, button {
+        input[type="text"],
+        input[type="password"],
+        input[type="submit"] {
             width: 100%;
             padding: 8px;
             margin: 5px 0;
             box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
 
-        input::placeholder {
-            color: #7E8C9C;
-        }
-
-        button {
+        input[type="submit"] {
             background-color: #0C243C;
             color: #fff;
             cursor: pointer;
         }
 
-        button:hover {
-            background-color: #0C243C;
+        input[type="submit"]:hover {
+            background-color: #0A1E32;
         }
 
         a {
@@ -73,28 +73,24 @@
 </head>
 <body>
 
-<form:form id="loginForm" modelAttribute="login" action="loginProcess" method="post">
-    <table>
-        <tr>
-            <td><label for="username">Username:</label></td>
-            <td><form:input path="username" id="username" placeholder="Enter your username" /></td>
-        </tr>
-        <tr>
-            <td><label for="password">Password:</label></td>
-            <td><form:password path="password" id="password" placeholder="Enter your password" /></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><form:button id="login" name="login">Login</form:button></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><a href="index">Home</a></td>
-        </tr>
-    </table>
-</form:form>
+<div id="loginForm">
+    <form action="loginProcess" method="post">
+        <div>
+            <label for="username">Username:</label><br />
+            <input type="text" id="username" name="username" required="required" />
+        </div>
+        <div>
+            <label for="password">Password:</label><br />
+            <input type="password" id="password" name="password" required="required" />
+        </div>
+        <div>
+            <input type="submit" value="Login" />
+        </div>
+    </form>
 
-<div id="errorMessage">${message}</div>
+    <div id="errorMessage">${message}</div>
+</div>
 
 </body>
 </html>
+

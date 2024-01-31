@@ -9,6 +9,7 @@ public interface UserService {
     void register(User user);
 
     void changePassword(String username, String oldPassword, String newPassword);
+    User login(String username, String password);
 
     List<User> getAllUsers();
 
