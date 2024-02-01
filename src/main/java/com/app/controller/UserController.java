@@ -77,8 +77,22 @@ public class UserController {
         mav.setViewName("redirect:/login");
         return mav;
     }
-
-
+    @RequestMapping(value = "/changePassword", method = RequestMethod.GET)
+    public ModelAndView showChangePassword() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("changePassword");
+        return mav;
+    }
+    @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
+    public ModelAndView changePassword(
+            @RequestParam("username") String username,
+            @RequestParam("oldPassword") String oldPassword,
+            @RequestParam("newPassword") String newPassword) {
+        ModelAndView mav = new ModelAndView("redirect:/changePassword");
+        User user = userService.getUser(username);
+        userService.changePassword(username, oldPassword, newPassword);
+        return mav;
+    }
 
     @RequestMapping(value = "/lk", method = RequestMethod.GET)
     public ModelAndView showLk() {
