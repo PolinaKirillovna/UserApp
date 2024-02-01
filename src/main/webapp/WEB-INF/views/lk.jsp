@@ -82,10 +82,10 @@
         </td>
     </tr>
     <tr>
-        <td><a href="getAllUsers">View All Users</a></td>
+        <td><a href="users">View All Users</a></td>
     </tr>
     <tr>
-        <td><a href="index">Home</a></td>
+        <td><a href="/">Home</a></td>
     </tr>
 </table>
 </body>

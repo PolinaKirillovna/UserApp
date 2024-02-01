@@ -3,12 +3,10 @@ package com.app.dao;
 import com.app.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -22,10 +20,7 @@ public class UserDaoImpl implements UserDao{
     @Override
     public List<User> allUsers() {
         Session session = sessionFactory.getCurrentSession();
-        Transaction trans = session.beginTransaction();
-        Query query = session.createQuery("FROM User");
-        trans.commit();
-        return (ArrayList<User>) query.list();
+        return session.createQuery("FROM User", User.class).getResultList();
     }
 
     @Override
