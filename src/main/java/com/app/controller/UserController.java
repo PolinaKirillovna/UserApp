@@ -2,103 +2,75 @@ package com.app.controller;
 
 import com.app.model.User;
 import com.app.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @Controller
 public class UserController {
-    private UserService userService;
-    @Autowired
-    public void setUserService(UserService userService) {
 
+    private final UserService userService;
+
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView index(){
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("index");
-        return mav;
-    }
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public ModelAndView allUsers(){
-        List<User> users = userService.getAllUsers();
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("users");
-        mav.addObject("usersList", users);
-        return mav;
-    }
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ModelAndView showLogin() {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("login");
-        return mav;
+    @GetMapping("/")
+    public String index() {
+        return "index";
     }
 
-    @RequestMapping(value = "/loginProcess", method = RequestMethod.POST)
-    public ModelAndView loginProcess(@RequestParam("username") String username,
-                                     @RequestParam("password") String password) {
-        ModelAndView mav = new ModelAndView();
+    @GetMapping("/users")
+    public List<User> allUsers() {
+        return userService.getAllUsers();
+    }
+
+    @GetMapping("/login")
+    public String showLogin() {
+        return "login";
+    }
+
+    @PostMapping("/loginProcess")
+    public ResponseEntity<?> loginProcess(@RequestParam("username") String username,
+                                          @RequestParam("password") String password) {
         User user = userService.login(username, password);
         if (user != null) {
-            mav.setViewName("redirect:/lk");
-            mav.addObject("user", user);
+            return ResponseEntity.ok().body(user);
         } else {
-            mav.addObject("message", "Username or Password is wrong!!");
-            mav.setViewName("redirect:/login");
+            return ResponseEntity.badRequest().body("Username or Password is wrong!!");
         }
-        return mav;
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public ModelAndView showRegister() {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("register");
-        return mav;
+    @GetMapping("/register")
+    public String showRegister() {
+        return "register";
     }
 
-
-
-    @RequestMapping(value = "/registerProcess", method = RequestMethod.POST)
-    public ModelAndView registerProcess(@RequestParam("username") String username,
-                                        @RequestParam("password") String password,
-                                        @RequestParam("email") String email) {
-        ModelAndView mav = new ModelAndView();
+    @PostMapping("/registerProcess")
+    public ResponseEntity<String> registerProcess(@RequestParam("username") String username,
+                                                  @RequestParam("password") String password,
+                                                  @RequestParam("email") String email) {
         User newUser = new User(username, password, email);
-
         userService.register(newUser);
-        mav.addObject("message", "Registration successful! Please login.");
-        mav.setViewName("redirect:/login");
-        return mav;
+        return ResponseEntity.ok("Registration successful! Please login.");
     }
-    @RequestMapping(value = "/changePassword", method = RequestMethod.GET)
-    public ModelAndView showChangePassword() {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("changePassword");
-        return mav;
+
+    @GetMapping("/changePassword")
+    public String showChangePassword() {
+        return "changePassword";
     }
-    @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
-    public ModelAndView changePassword(
-            @RequestParam("username") String username,
-            @RequestParam("oldPassword") String oldPassword,
-            @RequestParam("newPassword") String newPassword) {
-        ModelAndView mav = new ModelAndView("redirect:/changePassword");
-        User user = userService.getUser(username);
+
+    @PostMapping("/changePassword")
+    public ResponseEntity<?> changePassword(@RequestParam("username") String username,
+                                            @RequestParam("oldPassword") String oldPassword,
+                                            @RequestParam("newPassword") String newPassword) {
         userService.changePassword(username, oldPassword, newPassword);
-        return mav;
+        return ResponseEntity.ok().build();
     }
 
-    @RequestMapping(value = "/lk", method = RequestMethod.GET)
-    public ModelAndView showLk() {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("lk");
-        return mav;
+    @GetMapping("/lk")
+    public String showLk() {
+        return "lk";
     }
-
 }
